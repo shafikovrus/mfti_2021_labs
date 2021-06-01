@@ -1,4 +1,5 @@
-# mfti_2021_labs
-# Labs solution from 
+# Study labs solution from 
 # http://cs.mipt.ru/python
-# free to use for all
+#
+# Code is free to use
+# But I don`t sure that images too
