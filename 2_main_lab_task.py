@@ -4,14 +4,14 @@ Draw the PacMan game field with monsters and PacMan
 
 # Import a library of functions called 'pygame'
 import pygame
-from math import pi
+import sys
 
 # Initialize the game engine
 pygame.init()
 
 # Define the colors we will use in RGB format
 BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
+WHITE = (255, 255, 255)  # Used
 PINK_LIGHT = (255, 200, 200)  # Used
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
@@ -123,12 +123,77 @@ def big_dots():
 def draw_pacman(x, y, index):
     """
     Initial draw of animated Pacman
+    :param x, y: coordinates of Pacman
+    :param index: used for animation
     """
     pacman_images = [pygame.transform.scale(pygame.image.load(r'Images\Pacman_open_mouth.png'), [13*scale, 13*scale]),
                      pygame.transform.scale(pygame.image.load(r'Images\Pacman_closed_mouth.png'), [13*scale, 13*scale])]
     pacman_surf = pacman_images[index]
-    # pacman_rect = pacman_surf.get_rect(topleft=(x, y))
-    screen.blit(pacman_surf, (x, y))
+    screen.blit(pacman_surf, (x*scale, y*scale))
+
+
+def draw_blinky(x, y):
+    """
+    Initial draw of Blinky (red monster)
+    :param x, y: coordinates of Blinky
+    """
+    blinky_surf = pygame.transform.scale(pygame.image.load(r'Images\Blinky.png'), [14 * scale, 14 * scale])
+    screen.blit(blinky_surf, (x*scale, y*scale))
+
+def draw_pinky(x, y):
+    """
+    Initial draw of Pinky (pink monster)
+    :param x, y: coordinates of Pinky
+    """
+    pinky_surf = pygame.transform.scale(pygame.image.load(r'Images\Pinky.png'), [14 * scale, 14 * scale])
+    screen.blit(pinky_surf, (x*scale, y*scale))
+
+
+def draw_inky(x, y):
+    """
+    Initial draw of Inky (lime monster)
+    :param x, y: coordinates of Inky
+    """
+    inky_surf = pygame.transform.scale(pygame.image.load(r'Images\Inky.png'), [14 * scale, 14 * scale])
+    screen.blit(inky_surf, (x*scale, y*scale))
+
+
+def draw_clyde(x, y):
+    """
+    Initial draw of Clyde (orange monster)
+    :param x, y: coordinates of Clyde
+    """
+    clyde_surf = pygame.transform.scale(pygame.image.load(r'Images\Clyde.png'), [14 * scale, 14 * scale])
+    screen.blit(clyde_surf, (x*scale, y*scale))
+
+
+def draw_text(player_name, current_score, high_score):
+    """
+    Draws text at the top of game_field
+    :param player_name: Chosen player name
+    :param current_score: Number of points reached at current game session and at current continue
+    :param high_score: Maximum of points reached at current game session
+    """
+    pygame.font.init()
+    font = pygame.font.SysFont('Impact', 11*scale)
+    text_field_1 = font.render(player_name + '     ' + 'HIGH SCORE', True, WHITE)
+    text_field_2 = font.render(' ' + str(current_score), True, WHITE)
+    text_field_3 = font.render('' + str(high_score), True, WHITE)
+    screen.blit(text_field_1, (26*scale, 0*scale))
+    screen.blit(text_field_2, (33*scale, 9*scale))
+    screen.blit(text_field_3, (75*scale, 9*scale))
+
+
+def draw_lives(lives: int):
+    """
+    Draws number of lives at the bottom of game field
+    :param lives: number of lives at current continue
+    """
+    start_point = [19*scale, 274*scale]
+    pacman_surf = pygame.transform.scale(pygame.image.load(r'Images\Pacman_open_mouth.png'), [13*scale, 13*scale])
+    for live in range(lives):
+        screen.blit(pacman_surf, start_point)
+        start_point[0] += 20*scale
 
 
 # Loop until the user clicks the close button.
@@ -152,13 +217,18 @@ while not done:
     draw_field()
     dots()
     big_dots()
-    draw_pacman(106*scale, 206*scale, animation_index)
+    draw_pacman(106, 206, animation_index)
     pygame.display.update()
     if animation_index == 0:
         animation_index = 1
     else:
         animation_index = 0
-
+    draw_blinky(105, 110)
+    draw_pinky(89, 136)
+    draw_inky(105, 136)
+    draw_clyde(121, 136)
+    draw_text('1UP', 0, 2048)
+    draw_lives(3)
 
     # Go ahead and update the screen with what we've drawn.
     # This MUST happen after all the other drawing commands.
